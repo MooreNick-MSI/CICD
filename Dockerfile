@@ -10,4 +10,6 @@ COPY src/ ./src/
 
 EXPOSE 5000
 
-CMD ["python", "src/app.py"]
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "-u", "src/app.py"]
