@@ -12,7 +12,8 @@ jobs:
     env:
       repo: ${{ github.repository }}
       sha: ${{ github.event.workflow_run.head_sha }}
-      image: ghcr.io/${{ github.repository }}/cicd-demo:${{ github.event.workflow_run.head_sha }}  # fallback full SHA
+      image_tag: ${sha::7}
+      image: ghcr.io/${{ github.repository }}/cicd-demo:${image_tag}
 
     steps:
       - uses: actions/checkout@v4
@@ -24,10 +25,6 @@ jobs:
 
       - name: Run Docker container locally
         run: |
-          # Use first 7 chars of SHA for image tag
-          IMAGE_TAG="${sha:0:7}"
-          IMAGE="ghcr.io/${repo}/cicd-demo:${IMAGE_TAG}"
-
           echo "Running image $image"
 
           docker rm -f cicd-demo || true
