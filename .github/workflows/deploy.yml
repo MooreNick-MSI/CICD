@@ -13,7 +13,7 @@ jobs:
       repo: ${{ github.repository }}
       sha: ${{ github.event.workflow_run.head_sha }}
       image_tag: ${sha::7}
-      image: ghcr.io/${{ github.repository }}/cicd-demo:${image_tag}
+      image: ghcr.io/${repo,,}/cicd-demo:${image_tag}
 
     steps:
       - uses: actions/checkout@v4
