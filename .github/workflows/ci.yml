@@ -46,8 +46,12 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t ghcr.io/moorenick-msi/cicd/cicd-demo:latest .
+        username = ${{ github.repository_owner }}
+        repo = ${{ github.repository }}
+        username_lowercase = ${username,,}
+        repo_lowercase = ${repo,,}
+        docker build -t ghcr.io/${username_lowercase}/${repo_lowercase}/cicd-demo:latest .
 
     - name: Push Docker Image
       run: |
-        docker push ghcr.io/moorenick-msi/cicd/cicd-demo:latest
+        docker push ghcr.io/${username_lowercase}/${repo_lowercase}/cicd-demo:latest
