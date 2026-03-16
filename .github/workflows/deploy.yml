@@ -35,6 +35,8 @@ jobs:
 
           docker rm -f cicd-demo || true
           docker run -d --name cicd-demo -p 8080:80 "ghcr.io/${repo,,}/cicd-demo:${sha::7}"
+
+          sleep 5
           
           echo "=== Deployment info ==="
           docker ps -a
