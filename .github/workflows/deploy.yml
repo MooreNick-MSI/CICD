@@ -31,3 +31,6 @@ jobs:
           echo "=== Deployment info ==="
           docker ps -a
           docker images | grep cicd-demo
+
+          echo "=== Container logs ==="
+          docker logs cicd-demo
