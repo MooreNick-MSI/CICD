@@ -52,5 +52,8 @@ jobs:
         docker build -t ghcr.io/${username,,}/${repo,,}/cicd-demo:latest .
 
     - name: Push Docker Image
+      env:
+        username: ${{ github.repository_owner }}
+        repo: ${{ github.repository }}
       run: |
         docker push ghcr.io/${username,,}/${repo,,}/cicd-demo:latest
