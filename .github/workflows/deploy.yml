@@ -1,0 +1,26 @@
+name: Deploy Local POC
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]   # name of your main workflow
+    types:
+      - completed
+
+jobs:
+  deploy-local:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}  # checks out same commit as main workflow
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Run Docker container locally
+        env:
+          repo: ${{ github.repository }}
+        run: |
+          IMAGE=ghcr.io/${repo,,}/cicd-demo:${github.event.workflow_run.head_sha::7}
+          docker rm -f cicd-demo || echo "No old container"
+          docker run -d --name cicd-demo -p 8080:80 $IMAGE
