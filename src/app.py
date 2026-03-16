@@ -14,5 +14,6 @@ def add(a, b):
 
 if __name__ == "__main__":
     print("Hello World!")
+    print("Hello from GitHub Actions")
     print("Goodbye World!")
     app.run(host="0.0.0.0", port=5000)
