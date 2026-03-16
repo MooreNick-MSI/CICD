@@ -12,7 +12,6 @@ jobs:
     env:
       repo: ${{ github.repository }}
       sha: ${{ github.event.workflow_run.head_sha }}
-      image_tag: ${sha::7}
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +23,7 @@ jobs:
 
       - name: Run Docker container locally
         run: |
-          echo "Running image ghcr.io/${repo,,}/cicd-demo:${image_tag}"
+          echo "Running image ghcr.io/${repo,,}/cicd-demo:${sha::7}"
 
           docker rm -f cicd-demo || true
-          docker run -d --name cicd-demo -p 8080:80 "ghcr.io/${repo,,}/cicd-demo:${image_tag}"
+          docker run -d --name cicd-demo -p 8080:80 "ghcr.io/${repo,,}/cicd-demo:${sha::7}"
