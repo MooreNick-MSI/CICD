@@ -2,25 +2,33 @@ name: Deploy Local POC
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]   # name of your main workflow
+    workflows: ["CI Pipeline"]   # must exactly match ci.yml name
     types:
       - completed
 
 jobs:
   deploy-local:
     runs-on: ubuntu-latest
+    env:
+      repo: ${{ github.repository }}
+      sha: ${{ github.event.workflow_run.head_sha }}
+      image: ghcr.io/${{ github.repository }}/cicd-demo:${{ github.event.workflow_run.head_sha }}  # fallback full SHA
+
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}  # checks out same commit as main workflow
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Log in to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Run Docker container locally
-        env:
-          repo: ${{ github.repository }}
         run: |
-          IMAGE=ghcr.io/${repo,,}/cicd-demo:${github.event.workflow_run.head_sha::7}
-          docker rm -f cicd-demo || echo "No old container"
-          docker run -d --name cicd-demo -p 8080:80 $IMAGE
+          # Use first 7 chars of SHA for image tag
+          IMAGE_TAG="${sha:0:7}"
+          IMAGE="ghcr.io/${repo}/cicd-demo:${IMAGE_TAG}"
+
+          echo "Running image $image"
+
+          docker rm -f cicd-demo || true
+          docker run -d --name cicd-demo -p 8080:80 "$image"
