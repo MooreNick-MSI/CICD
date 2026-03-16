@@ -2,7 +2,7 @@ name: Deploy Local POC
 
 on:
   workflow_run:
-    workflows: ["CI/CD Pipeline"]   # name of your main workflow
+    workflows: ["CI Pipeline"]   # name of your main workflow
     types:
       - completed
 
