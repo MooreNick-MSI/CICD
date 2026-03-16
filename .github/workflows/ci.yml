@@ -44,8 +44,8 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t ghcr.io/${{ github.repository }}/cicd-demo:latest .
+        docker build -t ghcr.io/moorenick-msi/cicd/cicd-demo:latest .
 
     - name: Push Docker Image
       run: |
-        docker push ghcr.io/${{ github.repository }}/cicd-demo:latest
+        docker push ghcr.io/moorenick-msi/cicd/cicd-demo:latest
