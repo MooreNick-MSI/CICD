@@ -49,5 +49,5 @@ jobs:
         username: ${{ github.repository_owner }}
         repo: ${{ github.repository }}
       run: |
-        docker build -t ghcr.io/${username,,}/${repo,,}/cicd-demo:latest .
-        docker push ghcr.io/${username,,}/${repo,,}/cicd-demo:latest
+        docker build -t ghcr.io/${repo,,}/cicd-demo:latest .
+        docker push ghcr.io/${repo,,}/cicd-demo:latest
