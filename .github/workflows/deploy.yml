@@ -23,6 +23,10 @@ jobs:
 
       - name: Run Docker container locally
         run: |
+          echo: "Inspecting image contents"
+          docker run --rm "ghcr.io/${repo,,}/cicd-demo:${sha::7}" ls -1 /app
+
+        
           echo "Running image ghcr.io/${repo,,}/cicd-demo:${sha::7}"
 
           docker rm -f cicd-demo || true
